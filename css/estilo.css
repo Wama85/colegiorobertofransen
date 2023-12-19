@@ -186,11 +186,12 @@ footer{
     color: #CCCCCC;
 }
 #menuFooter{
-    flex: 30%;
+    flex: 20%;
     
 }
 #datosEmpresa{
     flex: 30%;
+    line-height: 35px;
 }
 #formularioEmpresa{
     flex: 30%;
@@ -212,4 +213,35 @@ nav a{
     display: flex;
     flex-direction: column;
     
+}
+#imagenesRedesSociales li img{
+    width: 38px;
+    padding: 8px;
+    
+
+}
+#imagenesRedesSociales li {
+    display: inline;
+}
+.tituloLetra{
+    font-weight: bold;
+    
+   
+}
+#telefono{
+    background-size: 18px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../img/redesSociales/telefono.png);
+    padding: 5px 0px 5px 25px;
+}
+#correo{
+    background-size: 18px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../img/redesSociales/correo.png);
+    padding: 5px 0px 5px 25px;
+}
+#datosEmpresa a{
+    color: #CCCCCC;
 }
