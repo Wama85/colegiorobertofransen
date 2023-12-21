@@ -60,6 +60,10 @@
     background-color: #DCDCE0;
 }
 .logoFestejo{
+    width: 150px;
+    clip-path: circle();
+}
+.logoAnuncio{
     width: 80px;
     clip-path: circle();
 }
@@ -144,6 +148,7 @@ a{
     width: 20%;
     margin: 20px;
     padding: 15px;
+    border-radius: 5%;
    
 }
 #marcoAnuncioCuerpo img{
@@ -201,7 +206,7 @@ h4{
 }
 input[type=text]{
     width: 100%;
-    padding: 5px;
+    padding: 8px;
     margin-bottom: 15px;
     border-radius: 5px;
 }
@@ -222,6 +227,9 @@ nav a{
 }
 #imagenesRedesSociales li {
     display: inline;
+}
+#imagenesRedesSociales li a:hover {
+    opacity: 70%;
 }
 .tituloLetra{
     font-weight: bold;
