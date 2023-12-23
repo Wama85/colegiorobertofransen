@@ -1,5 +1,52 @@
+<?php
+include("conectar/conectar.php");
+$mensaje="";
+
+if ($conexion) {
+    try {
+        // Verificar datos del formulario
+        if (isset($_POST['txtnombre'], $_POST['txtcorreo'], $_POST['txttelefono'], $_POST['txtdetalle'])) {
+            // Datos del nuevo registro
+            $nombre = $_POST['txtnombre'];
+            $correo = $_POST['txtcorreo'];
+            $telefono = $_POST['txttelefono'];
+            $detalle = $_POST['txtdetalle'];
+            $fecha = date('Y-m-d');
+
+            // Preparar la consulta SQL
+            $sql = "INSERT INTO contacto (nombre, correo, telefono, detalle, fecha) VALUES (:nombre, :correo, :telefono, :detalle, :fecha)";
+
+            // Preparar la declaración
+            $stmt = $conexion->prepare($sql);
+
+            // Vincular parámetros
+            $stmt->bindParam(':nombre', $nombre);
+            $stmt->bindParam(':correo', $correo);
+            $stmt->bindParam(':telefono', $telefono);
+            $stmt->bindParam(':detalle', $detalle);
+            $stmt->bindParam(':fecha', $fecha);
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            $mensaje = "Registro insertado con éxito";
+            $_POST['txtnombre'] = $_POST['txtcorreo'] = $_POST['txttelefono'] = $_POST['txtdetalle'] = "";
+        } else {
+            echo "";
+        }
+    } catch (PDOException $e) {
+        $mensaje = "Error al insertar el registro: " . $e->getMessage();
+    } finally {
+        // Cerrar la conexión
+        $conexion = null;
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +60,9 @@
     <title>COLEGIO ROBERTO FRANSEN</title>
 </head>
 <body>
+<?php if (!empty($mensaje)) : ?>
+        <script>alert('<?php echo $mensaje; ?>');</script>
+    <?php endif; ?>
     <div id="contenido">
         <div id="cabecera">
             
@@ -65,14 +115,8 @@
               </p>
               <div id="botonPortada"><a href="https://docs.google.com/forms/d/1-3dbjRwTcjaFHeJCLoNQ-603YQpijlfad7Xn-fAu8os/viewform?edit_requested=true" target="_blank">VER</a></div>
               </div>
-             
-          
-
           </div>
           <h2>COLEGIO CAtÓLICO ROBERTO FRANSEN</h2>
-
-
-
 
         </div>
         <footer>
@@ -100,12 +144,14 @@
                     </div>
                 </div>
                 <div id="formularioEmpresa">
-                    <form>
+                    <form id="formulario" method="POST" action="index.php">
                         <h4>FORMULARIO CONTACTO</h4>
-                        <input type="text" placeholder="Ingrese su nombre y apellido">
-                        <input type="text" placeholder="Ingrese Direccion de correo">
-                        <input type="text" placeholder="Ingrese número de teléfono">
-                        <input type="button" value="ENVIAR" id="botonPortada">
+                        <input name="txtnombre" type="text" value="<?php echo htmlspecialchars($_POST['txtnombre']); ?>" placeholder="Ingrese su nombre y apellido">
+                        <input name="txtcorreo" type="text" value="<?php echo htmlspecialchars($_POST['txtcorreo']); ?>" placeholder="Ingrese Direccion de correo">
+                        <input name="txttelefono" type="text" value="<?php echo htmlspecialchars($_POST['txttelefono']); ?>" placeholder="Ingrese número de teléfono">
+                        <input name="txtfecha" type="hidden" value="">
+                        <textarea name="txtdetalle" placeholder="Detalle su consulta (max 100 caracteres)" maxlength="100"><?php echo htmlspecialchars($_POST['txtdetalle']); ?></textarea>
+                        <input type="submit" value="ENVIAR" id="botonPortada">
                     </form>
                 </div>
             </div>
@@ -113,5 +159,6 @@
         </footer>
     </div>
     
+
 </body>
 </html>
